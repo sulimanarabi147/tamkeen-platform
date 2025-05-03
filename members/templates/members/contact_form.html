@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>طلب تواصل مع {{ member.full_name }}</title>
+</head>
+<body>
+  <h1>طلب تواصل مع {{ member.full_name }}</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">إرسال</button>
+  </form>
+
+  <br>
+  <a href="{% url 'public_profile' member.serial_number %}">رجوع إلى الملف العام</a>
+</body>
+</html>

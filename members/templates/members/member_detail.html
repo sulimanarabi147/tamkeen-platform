@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة العضو</title>
+    <style>
+        /* إعدادات الصفحة بشكل عام */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f1f1f1;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            justify-content: center;  /* تمركز المحتوى في المنتصف */
+            align-items: center;
+            min-height: 100vh;  /* جعل الصفحة تملأ الشاشة عموديًا */
+            margin: 0;
+        }
+
+        /* العنوان الرئيسي */
+        h1 {
+            color: #0085c5;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        /* تنسيق البطاقة */
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px; /* تحديد أقصى عرض للبطاقة */
+            width: 100%;
+            text-align: center;
+            margin: 20px;
+            border: 3px solid #d81b3b;  /* أحمر العلم */
+        }
+
+        /* رأس البطاقة */
+        .card-header {
+            background-color: #d81b3b;  /* أحمر العلم */
+            color: #ffffff;
+            padding: 15px;
+            font-size: 1.5em;
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* محتوى البطاقة */
+        .card-body {
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* تنسيق الفقرات داخل البطاقة */
+        .card-body p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        /* تذييل البطاقة */
+        .card-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* رمز الـ QR */
+        .qr-code {
+            margin-top: 20px;
+        }
+
+        /* الزر */
+        .btn {
+            background-color: #0085c5;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .btn:hover {
+            background-color: #005f7f;
+        }
+
+        /* صورة الملف الشخصي */
+        .profile-picture {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>معلومات العضو</h1>
+
+    <div class="card">
+        <div class="card-header">
+            بطاقة العضو
+        </div>
+        <div class="card-body">
+            {% if member.profile_picture %}
+                <img src="{{ member.profile_picture.url }}" alt="صورة العضو" class="profile-picture">
+            {% else %}
+                <img src="https://via.placeholder.com/150" alt="صورة العضو" class="profile-picture">
+            {% endif %}
+            
+            <p><strong>الاسم الكامل:</strong> {{ member.full_name }}</p>
+            <p><strong>الرقم التسلسلي:</strong> {{ member.serial_number }}</p>
+            <p><strong>الدور:</strong> {{ member.get_role_display }}</p>
+            <p><strong>القسم:</strong> {{ member.department }}</p>
+            <p><strong>حالة العضوية:</strong> {{ member.is_active|yesno:"نشط,غير نشط" }}</p>
+            <p><strong>تاريخ الانضمام:</strong> {{ member.join_date }}</p>
+
+            {% if member.qr_code_image %}
+                <div class="qr-code">
+                    <img src="{{ member.qr_code_image.url }}" alt="QR Code" width="150" height="150">
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <a href="/" class="btn">رجوع إلى الصفحة الرئيسية</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إحصائيات الأعضاء</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 90%;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    h3 {
+      color: #333;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #f0f0f0;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    div {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>إحصائيات الأعضاء</h1>
+
+    <div>
+      <h3>إجمالي الأعضاء: {{ stats.total_members }}</h3>
+      <h3>الأعضاء المفعلين: {{ stats.active_members }}</h3>
+      <h3>الأعضاء المعطلين: {{ stats.inactive_members }}</h3>
+    </div>
+
+    <h3>توزيع الأعضاء حسب الدور:</h3>
+    <ul>
+      {% for role in stats.role_counts %}
+        <li>{{ role.role }}: {{ role.count }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>توزيع الأعضاء حسب القسم:</h3>
+    <ul>
+      {% for department in stats.department_counts %}
+        <li>{{ department.department }}: {{ department.count }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

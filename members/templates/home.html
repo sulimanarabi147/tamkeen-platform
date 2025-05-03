@@ -1,0 +1,191 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f1f1f1;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #0085c5;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* تنسيق الشعار */
+        .logo {
+            width: 180px;
+            margin-bottom: 30px;  /* المسافة بين الشعار والعنوان */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        form {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 1.2em;
+            width: 280px;
+            border: 2px solid #0085c5;
+            border-radius: 8px;
+        }
+
+        button {
+            background-color: #0085c5;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #005f7f;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 600px;
+            margin-top: 40px;
+            border: 3px solid #d81b3b;
+            text-align: center;
+            width: 100%;
+        }
+
+        .card-header {
+            background-color: #d81b3b;
+            color: #ffffff;
+            padding: 18px;
+            font-size: 1.6em;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card-body {
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .card-body p {
+            font-size: 1.3em;
+            margin: 10px 0;
+        }
+
+        .card-footer {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .qr-code {
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #0085c5;
+            color: #ffffff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        .btn:hover {
+            background-color: #005f7f;
+        }
+
+        .profile-picture {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .not-found {
+            color: red;
+            font-size: 1.4em;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <!-- إضافة الشعار في أعلى الصفحة -->
+        <img src="{% static 'logo.png' %}" alt="شعار المجلس" class="logo">
+
+        <h1>البحث عن عضو</h1>
+
+        <!-- نموذج البحث -->
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="serial_number" placeholder="أدخل الرقم التسلسلي" value="{{ serial }}">
+            <button type="submit">بحث</button>
+        </form>
+
+        {% if member %}
+            <!-- بطاقة العضو -->
+            <div class="card">
+                <div class="card-header">
+                    بطاقة العضو
+                </div>
+                <div class="card-body">
+                    {% if member.profile_picture %}
+                        <img src="{{ member.profile_picture.url }}" alt="صورة العضو" class="profile-picture">
+                    {% else %}
+                        <img src="https://via.placeholder.com/150" alt="صورة العضو" class="profile-picture">
+                    {% endif %}
+
+                    <p><strong>الاسم الكامل:</strong> {{ member.full_name }}</p>
+                    <p><strong>الرقم التسلسلي:</strong> {{ member.serial_number }}</p>
+                    <p><strong>الدور:</strong> {{ member.get_role_display }}</p>
+                    <p><strong>القسم:</strong> {{ member.department }}</p>
+                    <p><strong>حالة العضوية:</strong> {{ member.is_active|yesno:"نشط,غير نشط" }}</p>
+                    <p><strong>تاريخ الانضمام:</strong> {{ member.join_date }}</p>
+
+                    {% if member.qr_code_image %}
+                        <div class="qr-code">
+                            <img src="{{ member.qr_code_image.url }}" alt="QR Code" width="150" height="150">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% elif serial %}
+            <div class="not-found">
+                عذرًا، لم يتم العثور على عضو بهذا الرقم التسلسلي.
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
