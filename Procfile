@@ -1,1 +1,1 @@
-web: gunicorn tamkeen_platform.wsgi
+web: gunicorn core.wsgi
