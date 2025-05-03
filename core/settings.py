@@ -153,4 +153,4 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'sanad@jordanyc.com'
 ADMIN_EMAIL = 'sanad@jordanyc.com'  # البريد المخصص للإدارة
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['tamkeen-platform.onrender.com', 'localhost']
